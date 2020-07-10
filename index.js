@@ -4,7 +4,6 @@ const mon = require('mongoose')
 
 const app = express()
 const port = 3001
-const pw = 'F!n@nc3'
 
 app.use(parser.json())
 
