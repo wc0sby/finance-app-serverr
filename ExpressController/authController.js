@@ -1,7 +1,6 @@
 // Connect to data (i.e. Model)
 const UserModel = require('../DB/authSchema')
 const mon = require('mongoose')
-const { updateOne } = require('../DB/authSchema')
 
 module.exports.list = ((req,res)=>{
   UserModel.find((err, user)=>{
@@ -24,23 +23,27 @@ module.exports.create = (async (req, res)=>{
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      categories: req.body.categories    
     })
   //TODO: check to see if username is unique
     let savedUser = await newUser.save()
     res.json(savedUser)
   } catch (error) {
-    res.status(500).send('User already exists')
+    res.status(500).send('User already exists '+ error)
   }
 })
 
 module.exports.update = (async(req, res)=>{
   try {
+    const currentDate = new Date()
     const newUser = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      // categories: req.body.categories,
+      updated_at: currentDate
     }
     const updatedUser = await UserModel.updateOne({_id:req.params.id},newUser).exec()
     res.send(`Records updated: ${updatedUser.nModified}`)

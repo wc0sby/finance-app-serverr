@@ -10,6 +10,7 @@ router.get('/users', list)
 router.get('/users/:id', show)
 router.post('/users', create)
 router.put('/users/:id', update)
+// router.put('/users/:id/categories', update)
 router.delete('/route/:id', remove)
 
 module.exports = router
