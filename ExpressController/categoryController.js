@@ -28,12 +28,11 @@ module.exports.create = (async(req, res)=>{
           const {categories} = results //deconstruct categories from result
           const newCategories = [...categories] //shallow copy array
           const dupCheck = newCategories.findIndex(i=>i.category === req.body.categories.category)
-          if (dupCheck === -1){
-            
+          if (dupCheck === -1){ //no duplicated categories allowed.  
             newCategories.push(req.body.categories) //add new object
             results.categories = newCategories //set categories eq to new array
             const modifiedUser = await results.save()
-            res.json(modifiedUser) //TODO: save to db
+            res.json(modifiedUser)
           }else{
             res.send('Duplications are not allowed')
           }
