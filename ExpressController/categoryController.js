@@ -1,6 +1,6 @@
 // Connect to data (i.e. Model)
 const UserCategory = require('../DB/authSchema')
-
+const Category = require('../DB/categorySchema')
 
 module.exports.list = (async(req,res)=>{
 //Returns the user subdoc: Categories
@@ -46,6 +46,24 @@ module.exports.create = (async(req, res)=>{
 })
 
 //TODO: make a call to update the categories
-module.exports.update = ((req, res)=>res.json({theId: req.params.id}))
+module.exports.update = (async(req, res)=>{
+    await UserCategory.findById(req.params.userId,async(err,results)=>{
+      try {
+        const {categories} = results //deconstruct categories from result
+        const newCategories = [...categories] //shallow copy array
+        const category = newCategories.find(i=>i._id == req.params.catId)
+        const newCategory = new Category({
+          category: req.body.categories.category,
+          isActive: req.body.categories.isActive
+          
+        })
+        console.log(newCategory)
+        // const savedCategory = await newCategory.save()
+        res.send(savedCategory)
+      } catch (error) {
+        res.send(error)
+      }
+    })
+  })
 
 module.exports.remove = ((req, res)=>res.json({}))

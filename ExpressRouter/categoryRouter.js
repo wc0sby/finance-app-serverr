@@ -6,7 +6,7 @@ const { list,create,update,remove } = require ('../ExpressController/categoryCon
 // Use whatever method you need (get, post, etc)
 router.get('/categories/:userId', list)
 router.post('/categories/:userId', create)
-router.put('/categories/:userId', update)
+router.put('/categories/:userId/:catId', update)
 router.delete('/categories/:id', remove)
 
 module.exports = router
