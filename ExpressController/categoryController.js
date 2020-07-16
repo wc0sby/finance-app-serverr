@@ -4,7 +4,7 @@ const UserCategory = require('../DB/authSchema')
 
 module.exports.list = (async(req,res)=>{
 //Returns the user subdoc: Categories
-//Return a specific user's categories
+//Return a specific user's categories that are active
   try {
     await UserCategory.findById(req.params.userId,(err,results)=>{
       if (results){ //if user is found
@@ -46,13 +46,15 @@ module.exports.create = (async(req, res)=>{
 })
 
 //TODO: make a call to update the categories
+//Expects: the user id and category id in the url request
+//Body will accept updates from the body for category and isActive key
 module.exports.update = (async(req, res)=>{
     await UserCategory.findById(req.params.userId,async(err,results)=>{
       try {
         const {categories} = results //deconstruct categories from result
         const newCategories = [...categories] //shallow copy array
         const category = newCategories.find(i=>i._id == req.params.catId)
-        const prevCategory = JSON.parse(JSON.stringify(category))
+        // const prevCategory = JSON.parse(JSON.stringify(category))
         
         category.category = req.body.categories.category,
         category.isActive = req.body.categories.isActive 
@@ -60,9 +62,7 @@ module.exports.update = (async(req, res)=>{
         const savedCategory = await results.save()
         res.json(savedCategory)
       } catch (error) {
-        res.send(`There was an error : ${error}`)
+        res.send(`There was an error while attempting to update categories. Message: ${error}`)
       }
     })
   })
-
-module.exports.remove = ((req, res)=>res.json({}))
