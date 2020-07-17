@@ -3,6 +3,7 @@ const UserModel = require('../DB/authSchema')
 const mon = require('mongoose')
 const bcrypt = require('bcryptjs')
 const {userValidation, loginValidation} = require('./validation')
+const jwt = require('jsonwebtoken')
 
 
 module.exports.list = ((req,res)=>{
@@ -69,5 +70,8 @@ module.exports.login = (async (req, res)=>{
     const validPass = await bcrypt.compare(req.body.password, user.password)
     if (!validPass) return res.status(400).send('Invalid Password')
 
-    res.send('Success')
+    //Create Token
+    const token = jwt.sign({_id: user._id}, process.env.SECRET)
+    res.header('auth-token', token).send(token)
+
 })
