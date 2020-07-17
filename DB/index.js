@@ -1,8 +1,17 @@
 module.exports.dbConnect = ()=>{
   const mon = require('mongoose')
-  const pw = 'F!n@nc3' //TODO: add this to ENV
+  const dotenv = require('dotenv')
 
-  mon.connect(`mongodb://<dbuser>:<dbpassword>@ds123664.mlab.com:23664/finance-app`, { user:'dba-admin', pass: pw, useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+  dotenv.config()
+
+  //Use DOTENV vars to secret DB creds
+  mon.connect(process.env.DB_HOST, { 
+    user:process.env.DB_USER
+    , pass: process.env.DB_PASS
+    , useNewUrlParser: true
+    , useUnifiedTopology: true
+    , useCreateIndex: true
+  })
 
   const db = mon.connection
   db.on('error', console.error.bind(console, 'connection error:'))

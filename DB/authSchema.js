@@ -1,6 +1,6 @@
 const mon = require('mongoose')
-const CategorySchema = require('./categorySchema.js')
-const EntryTypeSchema = require('./entryTypes.js')
+const CategorySchema = require('./categorySchema')
+const EntryTypeSchema = require('./entryTypeSchema')
 
 const UserSchema = new mon.Schema({
   firstName: String,

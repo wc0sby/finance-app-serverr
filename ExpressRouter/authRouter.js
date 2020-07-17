@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 // Router variables that should match the controller
-const { list,show,create,update,remove } = require (
+const { list,show,create,update,login } = require (
   '../ExpressController/authController'
 )
 
@@ -11,6 +11,6 @@ router.get('/users/:id', show)
 router.post('/users', create)
 router.put('/users/:id', update)
 // router.put('/users/:id/categories', update)
-router.delete('/route/:id', remove)
+router.post('/user/login', login)
 
 module.exports = router
