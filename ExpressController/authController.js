@@ -58,7 +58,7 @@ module.exports.update = (async(req, res)=>{
     const updatedUser = await UserModel.updateOne({_id:req.params.id},newUser).exec()
     res.send(`Records updated: ${updatedUser.nModified}`)
   } catch (error) {
-    res.status(404).send('user was not updated')
+    res.status(404).send(`user was not updated.  Error: ${error}`)
   }
 })
 

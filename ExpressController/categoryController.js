@@ -5,8 +5,9 @@ const UserCategory = require('../DB/authSchema')
 module.exports.list = (async(req,res)=>{
 //Returns the user subdoc: Categories
 //Return a specific user's categories that are active
+const {_id} = req.user
   try {
-    await UserCategory.findById(req.params.userId,(err,results)=>{
+    await UserCategory.findById(_id,(err,results)=>{
       if (results){ //if user is found
         const {categories} = results //deconstruct the found user
         const activeCategories = categories.filter(i=>i.isActive) //only want active
