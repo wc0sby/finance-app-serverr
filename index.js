@@ -1,5 +1,6 @@
 const express = require('express')
 const parser = require('body-parser')
+const cors = require('cors')
 const connect = require('./DB/index.js')
 const authRouter = require('./ExpressRouter/authRouter.js')
 const categoryRouter = require('./ExpressRouter/categoryRouter.js')
@@ -11,6 +12,8 @@ const port = 3001
 connect.dbConnect()
 
 app.use(parser.json())
+
+app.use(cors())
 
 app.use(authRouter)
 

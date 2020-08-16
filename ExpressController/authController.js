@@ -58,7 +58,7 @@ module.exports.update = (async(req, res)=>{
     const updatedUser = await UserModel.updateOne({_id:req.params.id},newUser).exec()
     res.send(`Records updated: ${updatedUser.nModified}`)
   } catch (error) {
-    res.status(404).send(`user was not updated.  Error: ${error}`)
+    res.status(409).send(`user was not updated.  Error: ${error}`)
   }
 })
 
@@ -66,12 +66,12 @@ module.exports.login = (async (req, res)=>{
   const {error} = loginValidation(req.body)
   if (error) return res.status(400).send(error.details[0].message)
     const user = await UserModel.findOne({username: req.body.username})
-    if (!user) return res.status(400).send('Email is invalid')
+    if (!user) return res.status(404).send('Email was not found')
     const validPass = await bcrypt.compare(req.body.password, user.password)
-    if (!validPass) return res.status(400).send('Invalid Password')
+    if (!validPass) return res.status(401).send('Invalid Password')
 
     //Create Token
-    const token = jwt.sign({_id: user._id}, process.env.SECRET)
-    res.header('auth-token', token).send(token)
+    const token = jwt.sign({_id: user._id, name: `${user.firstName} ${user.lastName}`, email: user.username}, process.env.SECRET)
+    res.header('auth-token', token).json(token)
 
 })
