@@ -4,6 +4,7 @@ const cors = require('cors')
 const connect = require('./DB/index.js')
 const authRouter = require('./ExpressRouter/authRouter.js')
 const categoryRouter = require('./ExpressRouter/categoryRouter.js')
+const entryRouter = require('./ExpressRouter/entryRouter.js')
 
 const app = express()
 const port = 3001
@@ -16,8 +17,9 @@ app.use(parser.json())
 app.use(cors())
 
 app.use(authRouter)
-
 app.use(categoryRouter)
+app.use(entryRouter)
+
 
 
 app.listen(port, () => console.log(`Listening on port ${port}!`))

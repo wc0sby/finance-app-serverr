@@ -10,7 +10,7 @@ const {_id} = req.user
     await UserEntry.findById(_id,(err,results)=>{
       if (results){ //if user is found
         const {entries} = results //deconstruct the found user
-        const activeEntries = entries.filter(i=>i.isActive) //only want active
+        const activeEntries = entries ? entries.filter(i=>i.isActive) : null //only want active
         res.json(activeEntries) //send to browser
       }else{
         res.status(404).send(`${res.statusCode} User was not found`) //send an error
@@ -23,14 +23,15 @@ const {_id} = req.user
 })
 
 module.exports.create = (async(req, res)=>{
-    await UserEntry.findById(req.params.userId,async(err,results)=>{
+  const {_id} = req.user
+    await UserEntry.findById(_id,async(err,results)=>{
       try {
         if(results){
           const {entries} = results //deconstruct entries from result
-          const newentries = [...entries] //shallow copy array
+          const newentries = entries ? [...entries] : [] //shallow copy array
           // const dupCheck = newentries.findIndex(i=>i.entries === req.body.entries.category)
           // if (dupCheck === -1){ //no duplicated entries allowed.  
-            newentries.push(req.body.entries) //add new object
+          newentries.push(req.body) //add new object
             results.entries = newentries //set categories eq to new array
             const modifiedUser = await results.save()
             res.json(modifiedUser)

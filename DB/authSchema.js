@@ -1,6 +1,6 @@
 const mon = require('mongoose')
 const CategorySchema = require('./categorySchema')
-const EntryTypeSchema = require('./entryTypeSchema')
+const EntryTypeSchema = require('./entrySchema')
 
 const UserSchema = new mon.Schema({
   firstName: String,
@@ -8,7 +8,7 @@ const UserSchema = new mon.Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   categories: [CategorySchema],
-  entryTypes: [EntryTypeSchema],
+  entries: [EntryTypeSchema],
   created_at: {type:Date, default: Date.now},
   updated_at: {type:Date, default: Date.now}
 })
