@@ -6,6 +6,7 @@ const Entry = new mon.Schema({
   type: String,
   category: String,
   createdBy: String,
+  createDate: Date,
   lastUpdated: {type:Date, default:Date.now},
   budgetAmt: Number,
   actualAmt: Number,

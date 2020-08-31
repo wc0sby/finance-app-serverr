@@ -29,9 +29,8 @@ module.exports.create = (async(req, res)=>{
         if(results){
           const {entries} = results //deconstruct entries from result
           const newentries = entries ? [...entries] : [] //shallow copy array
-          // const dupCheck = newentries.findIndex(i=>i.entries === req.body.entries.category)
-          // if (dupCheck === -1){ //no duplicated entries allowed.  
-          newentries.push(req.body) //add new object
+          const currentDate = new Date()
+          newentries.push({...req.body, createDate: currentDate}) //add new object with a create date
             results.entries = newentries //set categories eq to new array
             const modifiedUser = await results.save()
             res.json(modifiedUser)
