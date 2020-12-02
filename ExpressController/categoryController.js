@@ -28,9 +28,9 @@ module.exports.create = (async(req, res)=>{
         if(results){
           const {categories} = results //deconstruct categories from result
           const newCategories = [...categories] //shallow copy array
-          const dupCheck = newCategories.findIndex(i=>i.category === req.body.categories.category)
+          const dupCheck = newCategories.findIndex(i=>i.category === req.body.category)
           if (dupCheck === -1){ //no duplicated categories allowed.  
-            newCategories.push(req.body.categories) //add new object
+            newCategories.push(req.body) //add new object
             results.categories = newCategories //set categories eq to new array
             const modifiedUser = await results.save()
             res.json(modifiedUser)
@@ -40,7 +40,7 @@ module.exports.create = (async(req, res)=>{
         }else throw error 
         
       } catch (error) {
-        res.send('User does not exist')
+        res.send(`${error} or User does not exist`)
       }
     })
 
@@ -57,8 +57,8 @@ module.exports.update = (async(req, res)=>{
         const category = newCategories.find(i=>i._id == req.params.catId)
         // const prevCategory = JSON.parse(JSON.stringify(category))
         
-        category.category = req.body.categories.category,
-        category.isActive = req.body.categories.isActive 
+        category.category = req.body.category,
+        category.isActive = req.body.isActive 
         
         const savedCategory = await results.save()
         res.json(savedCategory)

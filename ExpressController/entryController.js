@@ -54,11 +54,11 @@ module.exports.update = (async(req, res)=>{
       try {
         const {entries} = results //deconstruct entries from result
         const newentries = [...entries] //shallow copy array
-        const entry = newentries.find(i=>i._id == req.params.catId)
+        const entry = newentries.find(i=>i._id == req.params.entryId)
         // const preventry = JSON.parse(JSON.stringify(entry))
         
-        entry.category = req.body.entries.category,
-        entry.isActive = req.body.entries.isActive 
+        // entry.category = req.body.entries.category,
+        entry.isActive = req.body.isActive 
         
         const savedEntry = await results.save()
         res.json(savedEntry)
